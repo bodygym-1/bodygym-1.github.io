@@ -1171,6 +1171,16 @@
                         <div class="info-grid">
                             <div class="info-box">
                                 <div class="info-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h3 data-i18n="connected_clients">Clients Connectés</h3>
+                                    <p id="connectedClientsCount">0</p>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <div class="info-icon">
                                     <i class="fas fa-calendar"></i>
                                 </div>
                                 <div class="info-content">
@@ -1383,7 +1393,8 @@
                 no_private_messages: "Aucun message privé",
                 loading_private_messages: "Chargement des messages privés...",
                 contact_title: "Contact",
-                nav_contact: "Contact"
+                nav_contact: "Contact",
+                connected_clients: "Clients Connectés"
             },
             en: {
                 title: "Client Area",
@@ -1432,7 +1443,8 @@
                 no_private_messages: "No private messages",
                 loading_private_messages: "Loading private messages...",
                 contact_title: "Contact",
-                nav_contact: "Contact"
+                nav_contact: "Contact",
+                connected_clients: "Connected Clients"
             },
             ar: {
                 title: "منطقة العميل",
@@ -1481,7 +1493,8 @@
                 no_private_messages: "لا توجد رسائل خاصة",
                 loading_private_messages: "جاري تحميل الرسائل الخاصة...",
                 contact_title: "اتصل بنا",
-                nav_contact: "اتصل بنا"
+                nav_contact: "اتصل بنا",
+                connected_clients: "العملاء المتصلون"
             }
         };
 
@@ -1555,6 +1568,8 @@
             if (document.getElementById('mainContent').style.display !== 'none') {
                 window.showPage('profile');
             }
+
+            updateConnectedClientsCount();
         });
 
         // Modified login function
@@ -2034,6 +2049,15 @@
                     showToast(translations[document.documentElement.lang].error_sending_message, 'error');
                 });
         };
+
+        // Fonction pour mettre à jour le compteur de clients connectés
+        function updateConnectedClientsCount() {
+            const connectedClientsRef = ref(db, 'connectedClients/count');
+            onValue(connectedClientsRef, (snapshot) => {
+                const count = snapshot.val() || 0;
+                document.getElementById('connectedClientsCount').textContent = count;
+            });
+        }
     </script>
 </body>
 </html>
